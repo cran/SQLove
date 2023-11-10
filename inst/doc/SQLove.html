@@ -341,7 +341,7 @@ Queries</h1>
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SQLove)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(SQLove)</span></code></pre></div>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>The <code>SQLove</code> package has been designed to provide helper
@@ -391,26 +391,26 @@ three tables that you want to modify and then join prior to bringing
 data into R. In the “leads” table, you have lead_id, date, and product.
 In the “sales” table, you have lead_id, date, sale_amount. Here is one
 way you might modify and then join these tables in SQL:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>CREATE TEMP TABLE lead_count AS</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  SELECT</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    lead_id</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    ,<span class="fu">COUNT</span>(DISTINCT lead_id) as num_leads</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    FROM leads</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    WHERE lead_id NOT LIKE <span class="st">&#39;SPAM&#39;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    GROUP BY <span class="dv">1</span>;</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>CREATE TEMP TABLE lead_sales AS</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    SELECT</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      lead_id</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      ,<span class="fu">SUM</span>(sale_amount) as tot_sales</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      FROM sales</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      WHERE lead_id NOT LIKE <span class="st">&#39;SPAM&#39;</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      GROUP BY <span class="dv">1</span>;</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>SELECT a.<span class="sc">*</span> </span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      FROM lead_count a </span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      LEFT JOIN lead_sales b</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        ON a.lead_id <span class="ot">=</span> b.lead_id</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>CREATE TEMP TABLE lead_count AS</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  SELECT</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    lead_id</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    ,<span class="fu">COUNT</span>(DISTINCT lead_id) as num_leads</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    FROM leads</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    WHERE lead_id NOT LIKE <span class="st">&#39;SPAM&#39;</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>    GROUP BY <span class="dv">1</span>;</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>    </span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>CREATE TEMP TABLE lead_sales AS</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    SELECT</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>      lead_id</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>      ,<span class="fu">SUM</span>(sale_amount) as tot_sales</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>      FROM sales</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>      WHERE lead_id NOT LIKE <span class="st">&#39;SPAM&#39;</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>      GROUP BY <span class="dv">1</span>;</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>SELECT a.<span class="sc">*</span> </span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>      FROM lead_count a </span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>      LEFT JOIN lead_sales b</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>        ON a.lead_id <span class="ot">=</span> b.lead_id</span></code></pre></div>
 <p>In a typical workflow for <code>DBI</code>, you would need to
 separate these statements and evaluate each individually (the first two
 using <code>dbSendUpdate()</code> and the final one using
@@ -419,8 +419,8 @@ using <code>dbSendUpdate()</code> and the final one using
 <p>After you have set up your connection per the <code>DBI</code> <a href="https://dbi.r-dbi.org/">guidance here</a>. You can simply use the
 following convention for executing your full SQL script and loading it
 into R like this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sales_volume <span class="ot">&lt;-</span> <span class="fu">dbGetMultiQuery</span>(<span class="at">connection =</span> conn,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sql_file_path =</span> <span class="st">&quot;~/path/to/file.sql&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sales_volume <span class="ot">&lt;-</span> <span class="fu">dbGetMultiQuery</span>(<span class="at">connection =</span> conn,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                                <span class="at">sql_file_path =</span> <span class="st">&quot;~/path/to/file.sql&quot;</span>)</span></code></pre></div>
 <p>Running this code will then automatically parse each query and will
 run the <code>RJDBC::dbSendUpdate()</code> function on all but the final
 statement. The final statement will be run using the
@@ -441,10 +441,10 @@ functionality that allows the user to substitute strings. This may be
 valuable if the user what to change a condition to compare data outputs
 interactively in the R environment. Below, is an example of this
 functionality using the same SQL script above:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>spam_volume <span class="ot">&lt;-</span> <span class="fu">dbGetMultiQuery</span>(<span class="at">connection =</span> conn,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sql_file_path =</span> <span class="st">&quot;~/path/to/file.sql&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">pattern =</span> <span class="st">&quot;NOT LIKE SPAM&quot;</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">replacement =</span> <span class="st">&quot;LIKE SPAM&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>spam_volume <span class="ot">&lt;-</span> <span class="fu">dbGetMultiQuery</span>(<span class="at">connection =</span> conn,</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                               <span class="at">sql_file_path =</span> <span class="st">&quot;~/path/to/file.sql&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>                               <span class="at">pattern =</span> <span class="st">&quot;NOT LIKE SPAM&quot;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>                               <span class="at">replacement =</span> <span class="st">&quot;LIKE SPAM&quot;</span>)</span></code></pre></div>
 <p>In this example, instead of eliminating SPAM, we are retaining ONLY
 rows that are marked as SPAM so that we can evaluate the volume of SPAM
 in the “leads” and “sales” tables. It is important to note that the
@@ -466,27 +466,27 @@ code. These, and probably other totally legitimate reasons not outlined
 here, underpin the <code>dbSendMultiUpdate</code> function, which allows
 the user to run an unlimited number of SQL query statements that do not
 produce an output. Here is an example:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>CREATE TEMP TABLE lead_count AS</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  SELECT</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    lead_id</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    ,<span class="fu">COUNT</span>(DISTINCT lead_id) as num_leads</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    FROM leads</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    WHERE lead_id NOT LIKE <span class="st">&#39;SPAM&#39;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    GROUP BY <span class="dv">1</span>;</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>CREATE TEMP TABLE lead_sales AS</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    SELECT</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      lead_id</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      ,<span class="fu">SUM</span>(sale_amount) as tot_sales</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      FROM sales</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      WHERE lead_id NOT LIKE <span class="st">&#39;SPAM&#39;</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      GROUP BY <span class="dv">1</span>;</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>CREATE TABLE schema.lead_info as</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      SELECT <span class="sc">*</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      FROM lead_count a </span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      LEFT JOIN lead_sales b</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        ON a.lead_id <span class="ot">=</span> b.lead_id</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>CREATE TEMP TABLE lead_count AS</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  SELECT</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    lead_id</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    ,<span class="fu">COUNT</span>(DISTINCT lead_id) as num_leads</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    FROM leads</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    WHERE lead_id NOT LIKE <span class="st">&#39;SPAM&#39;</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    GROUP BY <span class="dv">1</span>;</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    </span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>CREATE TEMP TABLE lead_sales AS</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    SELECT</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>      lead_id</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>      ,<span class="fu">SUM</span>(sale_amount) as tot_sales</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>      FROM sales</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>      WHERE lead_id NOT LIKE <span class="st">&#39;SPAM&#39;</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>      GROUP BY <span class="dv">1</span>;</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>CREATE TABLE schema.lead_info as</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>      SELECT <span class="sc">*</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>      FROM lead_count a </span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>      LEFT JOIN lead_sales b</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>        ON a.lead_id <span class="ot">=</span> b.lead_id</span></code></pre></div>
 <p>You’ll notice that this script is almost identical to the one above.
 However, our final statement no creates a table in the relational
 database rather than bringing data down into the R environment. In this
